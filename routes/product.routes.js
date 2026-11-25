@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../config/database");
+const authenticate = require("../middleware/auth.middleware");
 
 router.get("/product{/:id}", async (req, res) => {
     let product_id = req.params.id
@@ -59,7 +60,7 @@ router.get("/product{/:id}", async (req, res) => {
 
         try {
             const [rows] = await pool.query(
-                "SELECT * FROM product123"
+                "SELECT * FROM product"
             );
 
             res.status(200).json(rows);
@@ -80,7 +81,7 @@ router.get("/product{/:id}", async (req, res) => {
     )
 });
 
-router.post("/create-product", async (req, res) => {
+router.post("/create-product", authenticate, async (req, res) => {
     let form = req.body
     const [result] = await pool.query(
         "INSERT INTO product (name, cost, price) VALUES (?, ?, ?)",

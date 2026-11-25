@@ -2,12 +2,14 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const path = require("path");
 
+const authRoutes = require("./routes/auth.routes");
 const productRoutes = require("./routes/product.routes");
 
 const app = express();
 app.use(express.json());
 
 app.use("/api/v1", productRoutes);
+app.use("/api/auth", authRoutes);
 
 // 404 - Not Found
 app.use((req, res) => {
